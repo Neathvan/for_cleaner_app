@@ -15,7 +15,7 @@ class BookingRepository extends Repository {
     return responseChecking.kResponseChecking(response);
   }
 
-  Future bookingStaffCleanService(String date, String start, String end, String name, String? phoneNum, String nation, int staffId, int timeId,{ int? userId}) async {
+  Future bookingStaffCleanService(String date, String start, String end, String name, String? phoneNum, String nation,String? gender,  int staffId, int timeId,{ int? userId}) async {
     final SharedPreferences prefs = await preference;
 
     String? token = prefs.getString("token");
@@ -32,6 +32,7 @@ class BookingRepository extends Repository {
     "phone_number":phoneNum,
     "nationality": nation,
     "end_time"  :end,
+      "gender"  : gender
     };
     Response response = await api.postWithHeader("/api/booking", param, header );
     return responseChecking.kResponseChecking(response);

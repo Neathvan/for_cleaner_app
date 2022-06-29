@@ -1,16 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clean_app/bloc/booked_record_provider.dart';
+import 'package:clean_app/bloc/staff_provider.dart';
+import 'package:clean_app/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:clean_app/bloc/search_staff_provider.dart';
 import 'package:clean_app/extention/style.dart';
 import 'package:clean_app/ui/screen/booking_form_screen.dart';
 import 'package:clean_app/ui/widget/component/app_bar_widget.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleStaffScreen extends StatefulWidget {
   const ScheduleStaffScreen({Key? key, required this.name, required this.id}) : super(key: key);
   final String name;
   final int id;
+
   @override
   _ScheduleStaffScreenState createState() => _ScheduleStaffScreenState();
 }
@@ -19,29 +22,40 @@ class _ScheduleStaffScreenState extends State<ScheduleStaffScreen> {
 
   @override
   void initState() {
-    context.read<SearchStaffProvider>().viewScheduleList(widget.id);
+    getList(widget.id);
     super.initState();
   }
+
+  Future getList(int id) async {
+    var data  = await context.read<SearchStaffProvider>().viewScheduleList(id);
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(title: "${widget.name}'s schedule",),
-      body: Consumer<SearchStaffProvider>(
-        builder: (_, provider, index) {
-          return ListView.builder(
-            itemCount: provider.scheduleList.data?.length,
-            itemBuilder: (_, index) {
-              return  cardStaffBuilder(
-                  defaultColor.appColor,
-                  provider.scheduleList.data![index].scheduleInfor!.date!,
-                  provider.scheduleList.data![index].scheduleInfor!.times!.startTime!,
-                  provider.scheduleList.data![index].scheduleInfor!.times!.endTime!,
-                  provider.scheduleList.data![index].scheduleInfor!.timeId!,
-                  provider.scheduleList.data![index].status!,
-                  context);
-            },
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: () async {
+            getList(widget.id);
+          },
+        child:  Consumer<SearchStaffProvider>(
+          builder: (_, provider, index) {
+            return ListView.builder(
+              itemCount: provider.scheduleList.data?.length,
+              itemBuilder: (_, index) {
+                return  cardStaffBuilder(
+                    defaultColor.appColor,
+                    provider.scheduleList.data![index].scheduleInfor!.date!,
+                    provider.scheduleList.data![index].scheduleInfor!.times!.startTime!,
+                    provider.scheduleList.data![index].scheduleInfor!.times!.endTime!,
+                    provider.scheduleList.data![index].scheduleInfor!.timeId!,
+                    provider.scheduleList.data![index].status!,
+                    context);
+              },
+            );
+          },
+        )
       )
     );
   }

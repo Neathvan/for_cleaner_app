@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
 
 
 
-
 class AppProviders extends StatelessWidget {
   final Widget child;
 
@@ -43,6 +42,7 @@ class AppProviders extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => StaffProvider()),
           ChangeNotifierProvider(create: (context) => BookedRecordProvider()),
           ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => BookingProvider()),
         ],
         child: child
     );

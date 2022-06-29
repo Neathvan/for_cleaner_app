@@ -190,16 +190,17 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
              child:  ElevatedButton(
                child: Text('Book Now'),
-               onPressed: context.read<UserProvider>().gender == null && context.read<UserProvider>().nationality == null ? null : () {
+               onPressed: context.read<UserProvider>().gender == null && context.read<UserProvider>().nationality == null ? null : () async{
 
-                 context.read<BookingProvider>().bookingStaffCleanService(
+                 await context.read<BookingProvider>().bookingStaffCleanService(
                    context,
                    widget.date,
                    widget.start,
                    widget.end,
                    nameController.text,
                    phoneController.text,
-                   context.read<UserProvider>().nationality!,
+                   context.read<UserProvider>().gender!,
+
                    widget.id,
                    widget.timeId
                  );

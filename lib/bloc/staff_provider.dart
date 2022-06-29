@@ -55,7 +55,7 @@ class StaffProvider extends KProvider {
     if( data.status == ApiStatus.loaded ) {
       staffListResult.data      = List<StaffDetailModel>.from(data.response.data.map((x) => StaffDetailModel.fromJson(x)));
 
-      print(staffListResult.data);
+      print(staffListResult.data![0].status);
       update();
     }
     update();

@@ -28,11 +28,11 @@ class BookingProvider extends KProvider {
     update();
   }
 
-  Future<ApiStatus?> bookingStaffCleanService(BuildContext context,String date, String start, String end, String name, String? phoneNum, String nation, int staffId,int timeId,{int? userId}) async {
+  Future<ApiStatus?> bookingStaffCleanService(BuildContext context,String date, String start, String end, String name, String? phoneNum, String gender, int staffId,int timeId,{int? userId, String nation = 'khmer'}) async {
     bookedIdRecord.status = ApiStatus.loading;
     showLoading(context, 'loading... ');
     
-    KData data    = await bookingRepository.bookingStaffCleanService(date, start, end, name, phoneNum, nation, staffId, timeId);
+    KData data    = await bookingRepository.bookingStaffCleanService(date, start, end, name, phoneNum, nation, gender, staffId, timeId);
     bookedIdRecord.status = data.status;
 
     if( data.status == ApiStatus.loaded ) {
