@@ -41,19 +41,22 @@ class _ScheduleStaffScreenState extends State<ScheduleStaffScreen> {
           },
         child:  Consumer<SearchStaffProvider>(
           builder: (_, provider, index) {
-            return ListView.builder(
-              itemCount: provider.scheduleList.data?.length,
-              itemBuilder: (_, index) {
-                return  cardStaffBuilder(
-                    defaultColor.appColor,
-                    provider.scheduleList.data![index].scheduleInfor!.date!,
-                    provider.scheduleList.data![index].scheduleInfor!.times!.startTime!,
-                    provider.scheduleList.data![index].scheduleInfor!.times!.endTime!,
-                    provider.scheduleList.data![index].scheduleInfor!.timeId!,
-                    provider.scheduleList.data![index].status!,
-                    context);
-              },
-            );
+           if( provider.scheduleList.data != null ) {
+             return ListView.builder(
+               itemCount: provider.scheduleList.data?.length,
+               itemBuilder: (_, index) {
+                 return  cardStaffBuilder(
+                     defaultColor.appColor,
+                     provider.scheduleList.data![index].scheduleInfor!.date!,
+                     provider.scheduleList.data![index].scheduleInfor!.times!.startTime!,
+                     provider.scheduleList.data![index].scheduleInfor!.times!.endTime!,
+                     provider.scheduleList.data![index].scheduleInfor!.timeId!,
+                     provider.scheduleList.data![index].status!,
+                     context);
+               },
+             );
+           }
+           return Center(child: CircularProgressIndicator());
           },
         )
       )
